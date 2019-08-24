@@ -40,10 +40,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const key = 'F34A13XEJ1Mh0jGLP0Aeo9rUXdWyqt';
-const nightTemp = 18;
-const nightStart = 22;
-const nightEnd = 5;
+const key = process.env.APIKEY;
+const nightTemp = process.env.NighttimeTargetTemp;
+const nightStart = process.env.NighttimeStart;
+const nightEnd = process.env.NighttimeEnd;
 let isNight = false;
 let resumeTo = 22;
 let deviceId = false;
