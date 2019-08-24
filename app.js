@@ -137,7 +137,7 @@ const service = () => {
 
 setInterval(function(){
   service();
-},300000);
+}, process.env.IntervalMs);
 
 // Run service at startup
 service();
