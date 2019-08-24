@@ -68,7 +68,8 @@ const TurnOn = (acState) => {
     })
   })};
 
-setInterval(function(){
+
+const service = () => {
   axios.get(`https://home.sensibo.com/api/v2/users/me/pods?fields=*&apiKey=${key}`, {
   })
     .then(async ({ data }) => {
@@ -129,8 +130,16 @@ setInterval(function(){
         }
       }
 
-  })
+    })
     .catch(err => console.log(err));
+};
+
+
+setInterval(function(){
+  service();
 },300000);
+
+// Run service at startup
+service();
 
 module.exports = app;
