@@ -121,6 +121,8 @@ const service = () => {
       const { acState, measurements, id } = result[0];
       const { on, targetTemperature, mode } = acState;
       const roundTemp = Math.round(measurements.temperature);
+      const adjustedTemp = targetTemperature - 3;
+      const useAdjustedTemp = true;
       deviceId = id;
       // const now = 4;
       const now = new Date().getHours();
@@ -131,7 +133,7 @@ const service = () => {
       // console.log( { measurements });
 
       console.log(`-- Room temp: ${measurements.temperature}. Rounded to: ${roundTemp} --`);
-      console.log(`-- Target temp: ${targetTemperature - 2} --`);
+      console.log(`-- Target temp: ${(useAdjustedTemp) ? adjustedTemp : targetTemperature} --`);
       console.log(`-- AC On: ${on} --`);
       console.log(`-- AC Mode: ${acState.mode} --`);
 
@@ -169,19 +171,19 @@ const service = () => {
         // Heat mode?
         if (acState.mode === 'heat') {
           // Heat Mode!
-          if (roundTemp > (targetTemperature - 2) && on) {
+          if (roundTemp > ((useAdjustedTemp) ? adjustedTemp : targetTemperature) && on) {
             console.log('-- Temp above target and ac is currently on --');
             // Temp above target and ac is currently on
             // Turn off ac
             await TurnOff()
               .catch(e => console.log(e));
-          } else if (roundTemp < (targetTemperature -2) && !on) {
+          } else if (roundTemp < ((useAdjustedTemp) ? adjustedTemp : targetTemperature) && !on) {
             console.log('-- Temp below target and ac currently off --');
             // Temp below target and currently off
             // Turn on ac
             await TurnOn()
               .catch(e => console.log(e));
-          } else if (roundTemp < (targetTemperature - 2) + autoCoolDownTrigger && autoCoolDown) {
+          } else if (roundTemp < ((useAdjustedTemp) ? adjustedTemp : targetTemperature) + autoCoolDownTrigger && autoCoolDown) {
             console.log('-- Temp above auto-cool-down trigger - change to cool mode --');
             // Temp above auto-cool-down trigger
             // Change to cool mode
@@ -194,19 +196,19 @@ const service = () => {
           }
         } else {
           // Cool mode!
-          if (roundTemp < (targetTemperature - 2) && on) {
+          if (roundTemp < ((useAdjustedTemp) ? adjustedTemp : targetTemperature) && on) {
             console.log('-- Temp below target and ac is currently on --');
             // Temp above target and ac is currently on
             // Turn off ac
             await TurnOff()
               .catch(e => console.log(e));
-          } else if (roundTemp > (targetTemperature - 2) && !on) {
+          } else if (roundTemp > ((useAdjustedTemp) ? adjustedTemp : targetTemperature) && !on) {
             console.log('-- Temp above target and ac currently off --');
             // Temp below target and currently off
             // Turn on ac
             await TurnOn()
               .catch(e => console.log(e));
-          } else if (roundTemp < (targetTemperature - 2) + autoCoolDownTrigger && autoCoolDown) {
+          } else if (roundTemp < ((useAdjustedTemp) ? adjustedTemp : targetTemperature) + autoCoolDownTrigger && autoCoolDown) {
             autoCoolDownOn = true;
             await AutoCoolModeOn()
               .catch(e => console.log(e));
