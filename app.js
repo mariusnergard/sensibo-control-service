@@ -114,6 +114,8 @@ const AutoCoolModeOff = (acState) => {
   })};
 
 const service = () => {
+  axios.get('/')
+    .then((res) => console.log(res));
   axios.get(`https://home.sensibo.com/api/v2/users/me/pods?fields=*&apiKey=${key}`, {
   })
     .then(async ({ data }) => {
