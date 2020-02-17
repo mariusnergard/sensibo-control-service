@@ -115,7 +115,7 @@ const AutoCoolModeOff = (acState) => {
 
 const service = () => {
   axios.get('https://sensibo-app.herokuapp.com/')
-    .then((res) => console.log(res))
+    .then(() => console.log('pinged'))
     .catch((e) => console.log(e));
   axios.get(`https://home.sensibo.com/api/v2/users/me/pods?fields=*&apiKey=${key}`, {
   })
